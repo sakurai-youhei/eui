@@ -73,6 +73,11 @@ export class EuiAbsoluteTab extends Component<
     };
   }
 
+  override componentWillUnmount() {
+    // for browsers that may leave focus on text field, such as iOS Safari
+    this.parseUserDateInput(this.state.textInputValue);
+  }
+
   handleChange: EuiDatePickerProps['onChange'] = (date) => {
     const { onChange } = this.props;
     if (date === null) {
@@ -202,6 +207,7 @@ export class EuiAbsoluteTab extends Component<
                     this.parseUserDateInput(textInputValue);
                   }
                 }}
+                onBlur={() => this.parseUserDateInput(textInputValue)}
                 data-test-subj="superDatePickerAbsoluteDateInput"
                 prepend={<EuiFormLabel>{labelPrefix}</EuiFormLabel>}
               />
